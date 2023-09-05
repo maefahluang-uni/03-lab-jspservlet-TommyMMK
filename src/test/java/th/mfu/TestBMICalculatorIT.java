@@ -51,11 +51,30 @@ public class TestBMICalculatorIT {
     }
 
     //TODO: add another test case for normal built such as weight=50 and height=1.5.
-    @Test
+
+        @Test
     public void testCaclulate2() {
 
         // Make a HTTP GET request to retrieve the last created Parolee.
         try (Response response = client.target(WEB_URI+"?weight=50&height=1.5").request().get()) {
+
+            // Check that the HTTP response code is 200 OK.
+            int responseCode = response.getStatus();
+            assertEquals(200, responseCode);
+
+            String jsonResponse = response.readEntity(String.class);
+            assertThat(jsonResponse, CoreMatchers.containsString("Result is 22"));
+
+            assertThat(jsonResponse, CoreMatchers.containsString("normal"));
+            _logger.info("IT1 test passed");
+        }
+    }
+
+        @Test
+    public void testCaclulate3() {
+
+        // Make a HTTP GET request to retrieve the last created Parolee.
+        try (Response response = client.target(WEB_URI+"?weight=60&height=1.65").request().get()) {
 
             // Check that the HTTP response code is 200 OK.
             int responseCode = response.getStatus();
